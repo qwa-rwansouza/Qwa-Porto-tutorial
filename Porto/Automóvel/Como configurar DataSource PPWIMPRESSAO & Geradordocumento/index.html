@@ -1,0 +1,731 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>DataSource PPW &amp; Gerador</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1e08334d-65c9-479d-b213-6f5357e02d2f" class="page sans"><header><h1 class="page-title">DataSource PPW &amp; Gerador</h1></header><div class="page-body"><p id="c9cf0299-7ae4-4873-95d1-3f7c3092543e" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="11d3a966-a2ec-4384-9fea-3fab24135b78"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Depois de instalado e configurado  seu WebSphere, vamos configurar os datasources das aplicações ppwimpressão e gerador de documento, clique com botão direito no app do websphere e start: </em></div></figure><p id="87c17bc6-7bd1-4993-bd11-bacba5881698" class="">
+</p><figure id="0fb6f174-863a-4d68-8100-b77f8cab6e0d" class="image"><a href="imagens/Untitled.png"><img style="width:1007px" src="imagens/Untitled.png"/></a></figure><p id="4e8633f8-39b2-4540-90ae-7ab8e7791fdd" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="ac120d90-67d6-4d58-b33f-b7233ff8bae5"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Espere o servidor ser iniciado, assim que terminar ele apresentara essa mensagem entre colchetes [Started, Synchronized] como mostra imagem abaixo:</em></div></figure><p id="ee9998b0-8d05-4456-ab0c-a19fed8aae6e" class="">
+</p><figure id="6e06439c-d34d-420d-93fa-662f108309f2" class="image"><a href="imagens/Untitled%201.png"><img style="width:672px" src="imagens/Untitled%201.png"/></a></figure><p id="1b7f09b9-24b7-4d00-9314-3622e45f3dd3" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="50507883-089e-4ff2-8089-0c2ee0bf1731"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Acesse essa url: </em><em><a href="http://localhost:9061/ibm/console/unsecureLogon.jsp">http://localhost:9061/ibm/console/unsecureLogon.jsp</a></em><em>  em seguida irá  apresentar uma tela de login pedindo para você inserir um ID de usuário, não precisa basta clicar em efetue login :</em></div></figure><p id="4067c8f0-1215-44ca-b2dc-9dd7bdb2b10b" class="">
+</p><figure id="77c0ba96-d156-482b-81a5-e62a19536f1a" class="image"><a href="imagens/Untitled%202.png"><img style="width:672px" src="imagens/Untitled%202.png"/></a></figure><p id="7e38bbaa-7fa0-463b-b656-70b5e7cae8ab" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="60d62d14-f30e-44a4-90a8-e788dddfeddb"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Em seguida  irá apresentar  a tela de configuração do websphere, ao lado esquerdo  clique em  Recursos  → JDBC → Origens de Dados  clique em novo:
+(”Perceba que eu já tenho dois datasource configurados, mas o seu vai estar vazio”)</em></div></figure><p id="f6807b02-8984-480c-b3f3-8b66a61967b5" class="">
+</p><figure id="f8e583f5-fc45-4027-81b0-5ce6be806026" class="image"><a href="imagens/Untitled%203.png"><img style="width:876px" src="imagens/Untitled%203.png"/></a></figure><p id="da3b9840-439a-4768-92ec-fec2c7fa393e" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="ea544ea6-9dc4-4077-805a-734011ae07e4"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora  realmente iremos configurar o datasource, eu deixarei disponível  os dados necessário para a configuração, insira os valores que disponibilizei como mostra a imagem abaixo:</em></div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0e71fc66-489c-4dc8-9a4c-76c32bfa6e95"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">                                 <em> </em><em><mark class="highlight-blue"><strong> / * Propriedades de configuração */</strong></mark></em>
+
+<em>Nome da origem de dados:  ppwimpressao_oracle
+Nome JNDI:  jdbc/ppwimpressao_oracle</em></div></figure><p id="9bbf13e6-e0b5-4edf-bcb6-f9863c02fe85" class="">
+</p><figure id="44acfc44-7b77-4063-9a4e-2a822d87cbda" class="image"><a href="imagens/Untitled%204.png"><img style="width:900px" src="imagens/Untitled%204.png"/></a></figure><p id="4233c541-8bdd-4c27-ac5b-dfaaa26e68d8" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="4f472489-64e9-46f5-b424-80b46be3c162"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Selecione Criar Novo Provedor JDBC e clique em avançar:</em></div></figure><p id="098f4a63-7cf2-47a1-8225-c3b3241017b6" class="">
+</p><figure id="48f4dd15-95ce-4890-aca8-4b7f82939651" class="image"><a href="imagens/Untitled%205.png"><img style="width:938px" src="imagens/Untitled%205.png"/></a></figure><p id="fc859309-3e11-4d73-adc4-8e43012b23ee" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="94b099c6-5a7d-4e3f-8d8c-d5414393fe59"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Selecione as opções igual a imagem abaixo e clique em avançar:</em></div></figure><p id="57a65d5e-94f7-424a-bc01-05e6c609e2ba" class="">
+</p><figure id="bdededd0-73c6-4175-8e41-34ac8900f997" class="image"><a href="imagens/Untitled%206.png"><img style="width:931px" src="imagens/Untitled%206.png"/></a></figure><p id="2c6fdc23-2513-4723-868d-b238f7a6b0a0" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="8c29953c-69f3-43d5-a593-9aec2ca04fc9"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Em seguida precisamos configurar o caminho para o driver do banco de dados oracle, para isso vou disponibilizar o caminho do servidor onde se encontra o jar do driver:  
+
+</em><mark class="highlight-blue"><strong>                                        </strong></mark><em><mark class="highlight-blue"><strong>/ * Caminho do servidor */</strong></mark></em><em>
+\\QWANAS-01\qwa-share\Clientes\Porto Seguro\Geral\JDBC_DRIVERS\Oracle 
+
+
+Copie e cole o caminho no windows explorer, depois copie o ojdbc6.jar,  vá para disco local C crie uma pasta chamada DriverOracle e cole o jar que você copiou do servidor dentro dessa pasta . 
+
+Agora precisamos apontar para esse diretório  como mostra a imagem abaixo e clique em avançar:</em></div></figure><p id="3c5bc4bf-7423-4cc9-ab08-51bb7ce72943" class="">
+</p><figure id="c5580f1b-662d-410c-ae96-954df0084347" class="image"><a href="imagens/Untitled%207.png"><img style="width:925px" src="imagens/Untitled%207.png"/></a></figure><p id="34a41fa2-d661-4bcc-a18b-cbd7e53c90ff" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3ff9e3f3-be38-42af-9e96-55efb8db29b2"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora configure a url de conexão com banco como mostra a imagem abaixo:
+
+                      </em><em><mark class="highlight-blue"><strong> </strong></mark></em><em><mark class="highlight-blue">/ *  Url de Conexão copie e cole no websphere */
+jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = SCANPPHM)(PORT = 1521)))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = pphmsv)))</mark></em></div></figure><p id="ba8322fe-7ceb-4b87-8a6c-6d78deb7836f" class="">
+</p><figure id="c34e3ca7-4f78-4ea5-ae61-329ae118b992" class="image"><a href="imagens/Untitled%208.png"><img style="width:926px" src="imagens/Untitled%208.png"/></a></figure><p id="33cf3842-9540-426e-af0f-7933fdc80c57" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="9c94d271-68b2-46b9-91a7-6dfb640aadab"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Em seguida pode deixa tudo nenhum como mostra a imagem a abaixo:</em></div></figure><p id="af47cd9e-d6ff-4e65-aab0-3d178c431b39" class="">
+</p><figure id="da5ec602-0e83-409b-8c9c-04af83c08dcd" class="image"><a href="imagens/Untitled%209.png"><img style="width:902px" src="imagens/Untitled%209.png"/></a></figure><p id="12964018-b954-49e9-87b0-729355826e92" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="de09f1e5-5a71-4803-ac09-2730bd033670"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Concluir:</em></div></figure><p id="764db030-c47d-480b-a9d5-2e61c1fe71dc" class="">
+</p><figure id="2b2145d4-16d5-409e-ab14-88087e31496b" class="image"><a href="imagens/Untitled%2010.png"><img style="width:926px" src="imagens/Untitled%2010.png"/></a></figure><p id="d62f580e-aca5-4a86-ab83-352f9c01884f" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b722782d-ad57-4aea-853a-5638e222ca85"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Em seguida voltará para a tela inicial de configuração, clique em salvar  ao topo da tela como mostra a imagem abaixo:</em></div></figure><p id="c390ec3e-6cb1-499b-ae8f-d412431f020b" class="">
+</p><figure id="a2b6f562-c3ee-41f4-98b5-8e2fadc7fcef" class="image"><a href="imagens/Untitled%2011.png"><img style="width:952px" src="imagens/Untitled%2011.png"/></a></figure><p id="b5233950-8080-4dc0-a848-dd7c7cba2cc9" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="33c51eba-b93d-45dc-8bb4-39a0bf4d39ea"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora  precisamos configurar o usuário  e senha de conexão com banco, clique em cima do ppwimpressao_oracle:</em></div></figure><p id="896a26b4-a51d-4656-8227-5885a8c69a38" class="">
+</p><figure id="37305a76-c77c-447c-9076-36758a28d5ab" class="image"><a href="imagens/Untitled%2012.png"><img style="width:771px" src="imagens/Untitled%2012.png"/></a></figure><p id="2968e048-da24-4209-bded-a2ef2df76973" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b5fd9b79-a4a3-49a9-8578-7909e3c9cb3f"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Ao lado direito clique em JAAS - Dados de Autenticação do J2C como mostra imagem abaixo:</em></div></figure><p id="6d9441ae-4658-4de5-a6f6-a1e618776a35" class="">
+</p><figure id="9e0bc98a-026f-4492-9891-26c34720a655" class="image"><a href="imagens/Untitled%2013.png"><img style="width:868px" src="imagens/Untitled%2013.png"/></a></figure><p id="976d0c63-de88-4489-a688-2f467d2bc7ed" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="40febb64-efae-4d7b-bfda-46e8bf67a26d"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Clique em  novo como mostra imagem abaixo:
+(”note que o meu já está configurado, o seu vai estar vazio”)</em></div></figure><p id="7e60aac0-e6cd-41cb-8d3c-47a451c99add" class="">
+</p><figure id="5973504b-3818-45ad-87a5-f108df641576" class="image"><a href="imagens/Untitled%2014.png"><img style="width:817px" src="imagens/Untitled%2014.png"/></a></figure><p id="99ac4649-9fce-44ef-8b0b-c563de57e933" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2cbbcb49-c9b8-4b0e-8d35-a7db2ab02e66"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora passe o usuário e senha do banco  e um alias para identificar  a autenticação como mostra a imagem abaixo e clique em ok:
+
+                             </em><mark class="highlight-blue"><em>/*Usuário e senhado banco*/</em></mark><em>
+
+Usuário: wdsportoprint
+Senha: wdsportoprint</em></div></figure><p id="f081201b-91f6-4035-9b22-607656990649" class="">
+</p><figure id="8e20942b-81d6-491a-ae37-a951c24cbf58" class="image"><a href="imagens/Untitled%2015.png"><img style="width:795px" src="imagens/Untitled%2015.png"/></a></figure><p id="598a56e3-d57c-46f1-9756-23a8d25d70ea" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="d82df900-ba4b-40f8-a36b-c1ab04d754e5"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora clique em salvar as alterações feitas como mostra a imagem abaixo:</em></div></figure><p id="d794a317-2613-41b2-b791-ecc18b85b8c6" class="">
+</p><figure id="d88ec71f-4f93-4df4-8942-c75ee2b8f939" class="image"><a href="imagens/Untitled%2016.png"><img style="width:947px" src="imagens/Untitled%2016.png"/></a></figure><p id="94269f99-a00e-4652-ba89-081fb8619f45" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="d3aa232e-f7c1-4c11-b1d6-64b5260e43b3"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora vamos passar essas configurações para o datasource, se você olhar em baixo de origen de dados  que está em azul, você vai ver que vai estar assim → Origens de Dados &gt; ppwimpressao_oracle &gt; JAAS - Dados de Autenticação do J2C  clique em ppwimpressao_oracle  como mostra imagem abaixo e você será redirecionado para tela anterior:</em></div></figure><p id="48a392cc-69f4-4700-9461-ae9c6f070afc" class="">
+</p><figure id="117b69b7-2f28-42f5-ad6d-8c6c9029dd08" class="image"><a href="imagens/Untitled%2017.png"><img style="width:832px" src="imagens/Untitled%2017.png"/></a></figure><p id="ae815100-bf2c-45fa-8c1b-886d70184bd9" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b49b64ee-2aaa-40c0-832e-50398aec44b5"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora  role o seu scroll para baixo  e procure por “Configurações de Segurança”  e agora  clique nesses campos de select e marque o seu alias que configuramos a cima com seu usuário e senha do banco como mostra a imagem abaixo e clique em ok:</em></div></figure><p id="fac795c1-98ba-4cf9-8865-8b3c531eafb6" class="">
+</p><figure id="17192918-0353-40c3-899b-b36ad02e2ea8" class="image"><a href="imagens/Untitled%2018.png"><img style="width:804px" src="imagens/Untitled%2018.png"/></a></figure><p id="fd73bdca-eb6d-4629-b223-58643a019a42" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="037be684-d460-4ace-a507-1a1c79463de9"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora clique em salvar como mostra a imagem abaixo:</em></div></figure><p id="fad10f41-00c5-47f0-85e0-df3cd3a3c63f" class="">
+</p><figure id="6318d6eb-1e3e-4f3d-8a70-d82b3ed49ea2" class="image"><a href="imagens/Untitled%2019.png"><img style="width:938px" src="imagens/Untitled%2019.png"/></a></figure><p id="05d60849-36b4-46ba-b557-7be789225fb9" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="401eb700-0155-4325-894a-47eb83390f72"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora vamos testar a conexão do nosso datasource para ver se está funcionando , ao lado esquerdo do nome do seu datasource  click no checkbox  em seguida na parte superior click em  “Conexão de Teste” como mostra a imagem abaixo:</em></div></figure><p id="6546915e-f175-4278-a6ef-ccb8c7249dd4" class="">
+</p><figure id="8bc8adb5-d515-46a9-b686-ef51684ccb7e" class="image"><a href="imagens/Untitled%2020.png"><img style="width:944px" src="imagens/Untitled%2020.png"/></a></figure><p id="079a6389-7164-4b22-9ce4-f2693c7bfdfc" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="9a20d843-c542-40e7-963d-4ffec461b406"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Se tudo deu certo  e você não colocou nenhuma informação inválida na parte superior  irá apresentar a mensagem como mostra a imagem abaixo: </em></div></figure><p id="22e9179e-f22d-4b00-82d2-2817b6404fd0" class="">
+</p><figure id="3580da9d-d36c-42ee-98fc-c6854c79bb44" class="image"><a href="imagens/Untitled%2021.png"><img style="width:917px" src="imagens/Untitled%2021.png"/></a></figure><p id="d3fcea9d-9a03-4103-91d8-e515b98f7b04" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1861c76c-ec90-4415-8b65-cfd43f94a61e"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><em>Agora vou deixar as  informações para configuração do próximo DataSource, basta seguir os mesmo passos acima usando a nossas informações abaixo para conseguir fazer a configuração:
+
+                                    /*</em><em><mark class="highlight-blue"><strong>Propriedades de configuração</strong></mark></em><em>*/
+Nome da origem de dados:  </em><mark class="highlight-blue"><em>geradordocumento_oracle</em></mark><em>
+Nome da JNDI:  </em><mark class="highlight-blue"><em>jdbc/geradordocumento_oracle</em></mark><em>
+User:  </em><mark class="highlight-blue"><em>sohgerad</em></mark><em>
+Senha: </em><mark class="highlight-blue"><em>be5u</em></mark><mark class="highlight-blue"><em><strong>*D*</strong></em></mark><mark class="highlight-blue"><em>8gnXm*FL678lgtsktgovtdb</em></mark><em>
+Url:  </em><em><mark class="highlight-blue">jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = SCANPPHM)(PORT = 1521)))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = pphmsv)))</mark></em></div></figure><p id="9a83e0b6-b853-4031-9d23-c39e1adbea09" class="">
+</p></div></article></body></html>
